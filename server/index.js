@@ -23,7 +23,7 @@ const songSchema = new mongoose.Schema({
   songFile: String, // Store base64 string
 });
 
-const Song = mongoose.model("vibeverse-songs", songSchema);
+const Song = mongoose.model("songs", songSchema);
 
 app.get("/", (req, res) => {  
   res.send("Hello World!");
