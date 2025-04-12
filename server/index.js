@@ -51,7 +51,7 @@ app.post("/api/songs", async (req, res) => {
 app.get("/api/songs", async (req, res) => {
   try {
     const songs = await Song.find();
-    console.log(songs)
+    // console.log(songs)
     res.json(songs);
   } catch (error) {
     console.error("Error getting songs:", error);
