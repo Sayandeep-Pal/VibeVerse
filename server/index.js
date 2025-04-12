@@ -30,6 +30,10 @@ const songSchema = new mongoose.Schema({
 
 const Song = mongoose.model("VibeVerse-songs", songSchema);
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the VibeVerse API!");
+});
+
 // API endpoint to add a song (Modified for base64 data)
 app.post("/api/songs", async (req, res) => {
   try {
