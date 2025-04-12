@@ -56,7 +56,7 @@ app.post("/api/songs", async (req, res) => {
 });
 
 // API endpoint to get all songs
-app.get("/api/songs", async (req, res) => {
+app.get("/songs", async (req, res) => {
   try {
     const songs = await Song.find();
     res.json(songs);
