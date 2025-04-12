@@ -11,58 +11,38 @@ const App = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let imageData = null;
-        let songFileData = null;
-
-        // Read image file as base64
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('singer', singer);
         if (image) {
-            imageData = await readFileAsBase64(image);
+            formData.append('image', image);
         }
-
-        // Read song file as base64
         if (songFile) {
-            songFileData = await readFileAsBase64(songFile);
+            formData.append('songFile', songFile);
         }
-
-        const payload = {
-            title,
-            singer,
-            image: imageData,  // base64 encoded
-            songFile: songFileData, // base64 encoded
-        };
-
-        console.log("Payload:", payload);
 
         try {
-            const response = await axios.post('https://vibe-verse-be.vercel.app/api/songs', payload);
+            const response = await axios.post('http://localhost:5000/api/songs', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Important!
+                },
+            });
 
-            setMessage(response.data.message);
-            setTitle('');
-            setSinger('');
-            setImage(null);
-            setSongFile(null);
-            console.log("Song Added Successfully");
+            if (response.status >= 200 && response.status < 300) {
+                setMessage(response.data.message);
+                setTitle('');
+                setSinger('');
+                setImage(null);
+                setSongFile(null);
+                console.log("Song Added Successfully");
+            } else {
+                console.error('API returned an error status:', response.status, response.data);
+                setMessage(`Error adding song: Server returned status ${response.status}`);
+            }
         } catch (error) {
             console.error('Error adding song:', error);
-            setMessage('Error adding song');
+            setMessage('Error adding song: ' + (error.message || 'Unknown error'));
         }
-    };
-
-    // Helper function to read a file as a base64 string
-    const readFileAsBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-
-            reader.onload = () => {
-                resolve(reader.result); // base64 string
-            };
-
-            reader.onerror = (error) => {
-                reject(error);
-            };
-
-            reader.readAsDataURL(file); // Read as base64
-        });
     };
 
     const handleImageChange = (e) => {
