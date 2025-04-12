@@ -28,7 +28,7 @@ const songSchema = new mongoose.Schema({
   songFile: String, // Store the song filename
 });
 
-const Song = mongoose.model("Song", songSchema);
+const Song = mongoose.model("VibeVerse-songs", songSchema);
 
 // Multer configuration for image upload
 const imageStorage = multer.diskStorage({
