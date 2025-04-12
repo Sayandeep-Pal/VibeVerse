@@ -14,9 +14,10 @@ app.use(bodyParser.urlencoded({ limit: "100mb", extended: true })); // Increase 
 
 app.use(express.static("public")); // Serve static files (images) from the 'public' directory
 
+const MONGODB = process.env.MONGODB || "mongodb://localhost:27017/vibe-verse"; // Default to local MongoDB if not set in .env
 // MongoDB Connection
 mongoose
-  .connect(process.env.MONGODB)
+  .connect(MONGODB)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
