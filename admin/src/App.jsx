@@ -30,10 +30,10 @@ const App = () => {
             image: imageData,  // base64 encoded
             songFile: songFileData, // base64 encoded
         };
-
+        console.log(payload);
         try {
-            const response = await axios.post('https://vibe-verse-be.vercel.app/api/songs', payload);
-
+            const response = await axios.post('http://localhost:5000/api/songs', payload);
+            console.log(response.data.message);
             setMessage(response.data.message);
             setTitle('');
             setSinger('');
@@ -94,11 +94,11 @@ const App = () => {
                 </div>
                 <div>
                     <label>Image:</label>
-                    <input type="file" accept="image/*" onChange={handleImageChange} />
+                    <input type="file" name='image' accept="image/*" onChange={handleImageChange} />
                 </div>
                 <div>
                     <label>Song File:</label>
-                    <input type="file" accept="audio/*" onChange={handleSongChange} />
+                    <input type="file" name='songFile' accept="audio/*" onChange={handleSongChange} />
                 </div>
                 <button type="submit">Add Song</button>
             </form>
