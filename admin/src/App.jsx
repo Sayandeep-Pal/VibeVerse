@@ -11,38 +11,55 @@ const App = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('singer', singer);
+        let imageData = null;
+        let songFileData = null;
+
+        // Read image file as base64
         if (image) {
-            formData.append('image', image);
+            imageData = await readFileAsBase64(image);
         }
+
+        // Read song file as base64
         if (songFile) {
-            formData.append('songFile', songFile);
+            songFileData = await readFileAsBase64(songFile);
         }
+
+        const payload = {
+            title,
+            singer,
+            image: imageData,  // base64 encoded
+            songFile: songFileData, // base64 encoded
+        };
 
         try {
-            const response = await axios.post('http://localhost:5000/api/songs', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data', // Important!
-                },
-            });
+            const response = await axios.post('http://localhost:5000/api/songs', payload);
 
-            if (response.status >= 200 && response.status < 300) {
-                setMessage(response.data.message);
-                setTitle('');
-                setSinger('');
-                setImage(null);
-                setSongFile(null);
-                console.log("Song Added Successfully");
-            } else {
-                console.error('API returned an error status:', response.status, response.data);
-                setMessage(`Error adding song: Server returned status ${response.status}`);
-            }
+            setMessage(response.data.message);
+            setTitle('');
+            setSinger('');
+            setImage(null);
+            setSongFile(null);
         } catch (error) {
             console.error('Error adding song:', error);
-            setMessage('Error adding song: ' + (error.message || 'Unknown error'));
+            setMessage('Error adding song');
         }
+    };
+
+    // Helper function to read a file as a base64 string
+    const readFileAsBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                resolve(reader.result); // base64 string
+            };
+
+            reader.onerror = (error) => {
+                reject(error);
+            };
+
+            reader.readAsDataURL(file); // Read as base64
+        });
     };
 
     const handleImageChange = (e) => {
