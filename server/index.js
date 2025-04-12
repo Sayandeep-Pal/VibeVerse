@@ -66,6 +66,10 @@ const songUpload = multer({
   },
 });
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Music API!");
+});
+
 // API endpoint to add a song
 app.post(
   "/api/songs",
