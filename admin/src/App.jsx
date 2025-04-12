@@ -31,6 +31,8 @@ const App = () => {
             songFile: songFileData, // base64 encoded
         };
 
+        console.log("Payload:", payload);
+
         try {
             const response = await axios.post('http://localhost:5000/api/songs', payload);
 
@@ -39,7 +41,7 @@ const App = () => {
             setSinger('');
             setImage(null);
             setSongFile(null);
-            console.log("Song Added Succesfully")
+            console.log("Song Added Successfully");
         } catch (error) {
             console.error('Error adding song:', error);
             setMessage('Error adding song');
