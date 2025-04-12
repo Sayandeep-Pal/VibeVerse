@@ -32,7 +32,7 @@ const App = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/api/songs', payload);
+            const response = await axios.post('https://vibe-verse-be.vercel.app/api/songs', payload);
 
             setMessage(response.data.message);
             setTitle('');

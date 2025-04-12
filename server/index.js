@@ -25,6 +25,10 @@ const songSchema = new mongoose.Schema({
 
 const Song = mongoose.model("vibeverse-songs", songSchema);
 
+app.get("/", (req, res) => {  
+  res.send("Hello World!");
+});
+
 app.post("/api/songs", async (req, res) => {
   try {
     const { title, singer, image, songFile } = req.body;
